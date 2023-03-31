@@ -1,0 +1,15 @@
+artifact_path: stable-diffusion
+flavors:
+  python_function:
+    code: code
+    data: data
+    env: conda.yaml
+    loader_module: diffusion_loader
+    python_version: 3.7.5
+mlflow_version: 1.30.0
+model_uuid: 0ca0f3d292644437a5cf2a706b3535be
+run_id: 9093cc35-cfa9-498a-98e0-ba0e59147b2a
+signature:
+  inputs: '[{"name": "task", "type": "string"}]'
+  outputs: '[{"name": "image", "type": "binary"}]'
+utc_time_created: '2023-01-08 05:38:11.210978'

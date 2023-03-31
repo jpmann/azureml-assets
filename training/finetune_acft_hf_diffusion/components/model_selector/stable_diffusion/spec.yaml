@@ -1,0 +1,48 @@
+$schema: https://azuremlschemas.azureedge.net/latest/commandComponent.schema.json
+name: stable_diffusion_model_import
+version: 0.0.1
+type: command
+
+is_deterministic: True
+
+display_name: Stable Diffusion Model Import
+description: Import PyTorch / MLflow model
+
+environment: azureml:acft-hf-diffusion-gpu:0.0.1
+
+code: ../../../src/model_selector
+
+inputs:
+  # Model and task name
+  model_id:
+    type: string
+    enum:
+      - "CompVis/stable-diffusion-v1-4"
+    default: "CompVis/stable-diffusion-v1-4"
+    description: model id used to load model checkpoint.
+    optional: true
+
+  # huggingface_id:
+  #   type: string
+  #   description: Input HuggingFace model id takes priority over model_id. Incase of continual finetuning provide proper id.
+  #   optional: true
+
+  # Continual-Finetuning model path
+  pytorch_model_path:
+    type: custom_model
+    optional: true
+    description: Input folder path containing pytorch model for further finetuning. Proper model/huggingface id must be passed.
+
+  mlflow_model_path:
+    type:  mlflow_model
+    optional: true
+    description: Input folder path containing mlflow model for further finetuning. Proper model/huggingface id must be passed.
+
+outputs:
+  output_dir:
+    type: uri_folder
+    description: folder to store model metadata
+
+command: >-
+  python model_selector.py --task_name StableDiffusion $[[--model_id ${{inputs.model_id}}]] $[[--pytorch_model_path ${{inputs.pytorch_model_path}}]] $[[--mlflow_model_path ${{inputs.mlflow_model_path}}]] --output_dir ${{outputs.output_dir}}
+

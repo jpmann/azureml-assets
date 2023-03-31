@@ -1,0 +1,10 @@
+mlflow
+diffusers
+scipy
+safetensors
+accelerate
+transformers
+huggingface_hub
+azureml-inference-server-http
+torch
+ftfy

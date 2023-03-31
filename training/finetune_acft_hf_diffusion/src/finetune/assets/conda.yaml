@@ -1,0 +1,18 @@
+channels: 
+  - defaults
+  - huggingface
+  - conda-forge
+dependencies:
+  - python=3.10
+  - pip
+  - pip:
+    - mlflow
+    - diffusers
+    - scipy
+    - safetensors
+    - accelerate
+    - transformers
+    - huggingface_hub
+    - azureml-inference-server-http
+    - torch
+    - ftfy

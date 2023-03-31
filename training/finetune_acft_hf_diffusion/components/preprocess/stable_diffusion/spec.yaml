@@ -1,0 +1,59 @@
+$schema: https://azuremlschemas.azureedge.net/latest/commandComponent.schema.json
+name: stable_diffusion_datapreprocess
+version: 0.0.1
+type: command
+
+is_deterministic: True
+
+display_name: Stable Diffusion DataPreProcess
+description: Component to preprocess data for stable diffusion
+
+environment: azureml:acft-hf-diffusion-gpu:0.0.1
+
+code: ../../../src/preprocess
+
+inputs:
+
+  # Stable Diffusion task arguments
+  caption_column:
+    type: string
+    optional: false
+    description: column_name for caption in the dataset_name_or_folder
+
+  resolution:
+    type: number
+    optional: true
+    description: Image resolution to be used
+
+  center_crop:
+    type: string
+    default: "true"
+    optional: true
+    enum:
+      - "true"
+      - "false"
+    description: If set, center crop of the image will be taken while applying image transforms else random crop will be used
+
+  random_flip:
+    type: string
+    default: "true"
+    optional: true
+    enum:
+      - "true"
+      - "false"
+    description: If set, image will be randomly flipped during image transforms
+
+  # Dataset parameters
+  model_selector_output:
+    type: uri_folder
+    optional: false
+    description: output folder of model selector containing model metadata like config, checkpoints, tokenizer config
+
+outputs:
+  output_dir:
+    type: uri_folder
+    description: folder to store preprocessed outputs of input data
+
+command: >-
+  python preprocess.py --task_name StableDiffusion --caption_column ${{inputs.caption_column}} $[[--resolution ${{inputs.resolution}}]] $[[--center_crop ${{inputs.center_crop}}]] $[[--random_flip ${{inputs.random_flip}}]] --model_selector_output ${{inputs.model_selector_output}} --output_dir ${{outputs.output_dir}}
+

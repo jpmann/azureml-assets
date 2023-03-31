@@ -1,0 +1,16 @@
+$schema: https://azuremlschemas.azureedge.net/latest/environment.schema.json
+
+description: >-
+  Environment used by Stable Diffusion Finetune components
+
+name: "{{asset.name}}"
+version: "{{asset.version}}"
+
+build:
+  path: context
+
+os_type: linux
+
+tags:
+  OS: Ubuntu20.04
+  Training: "HF-Diffusion"
